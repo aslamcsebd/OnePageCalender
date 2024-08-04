@@ -1,4 +1,6 @@
 <?php
+    //date_default_timezone_set("Asia/Dhaka");
+
     if(isset($_POST['next'])){
         $y = $_POST['next']+1;
     }
@@ -13,7 +15,7 @@
     }
 
     $today =  date('j');
-    $month =  date('M');    
+    $month =  date('M');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,9 +25,6 @@
     <title>Calender</title>
     <meta http-equiv="refresh" content="">
     <link rel="stylesheet" href="assets/bootstrap.min.css">
-    <style>
-        .aaa{padding: 0 15px !important; vertical-align: middle !important;}
-    </style>
 </head>
 <body class="container my-4 text-center">
     <div class="row">
@@ -56,18 +55,19 @@
         </div>
     </div>
 
-    <table class="table table-bordered">
+    <table class="table table-bordered" style="width: fit-content;  float: none; display: block; margin: 0 auto;">
+        <h3>One page calender <?= $y; ?></h3>
         <?php
             for($j=1; $j<=3; $j++){ ?>
                 <tr>
                     <?php if($j == 1){ ?>
                         <td colspan="5" rowspan="3" >
+                            <h3 class="clock"></h3>
                             <form action="" method="post">
                                 <button type="submit" name="prev" value="<?= $y; ?>" class="btn btn-sm btn-outline-primary">&#9756 Previous year</button>
-                                <button type="submit" name="now" value="<?= $y; ?>" class="btn btn-sm btn-outline-success">Default</button>
+                                <button type="submit" name="now" value="<?= $y; ?>" class="btn btn-sm btn-outline-success">Now</button>
                                 <button type="submit" name="next" value="<?= $y; ?>" class="btn btn-sm btn-outline-primary">Next year &#9758</button>
                             </form>
-                            <span class="fs-5">One page calender <?= $y; ?></span>
                         </td>
                     <?php }
                         $cl = 1;
@@ -114,9 +114,26 @@
     <script src="assets/jquery-3.7.1.min.js"></script>
     <script src="assets/bootstrap.bundle.min.js"></script>
     <script>
+        function displayTime(){
+            let date = new Date();
+            let time = date.toLocaleTimeString();
+            document.querySelector('.clock').textContent = time;
+        }
+        displayTime();
+        const createClock = setInterval(displayTime, 1000);
+
         $(document).ready(function(){
-            var d = new Date();
-            var date = d.getDate();
+            setInterval(function(){                
+                var date= new Date();
+                var hr = date.getHours();
+                var m = date.getMinutes();
+                var s = date.getSeconds();
+
+                if(hr == 0 && m == 0)
+                {
+                    window.location.reload(true);
+                }                
+            }, 10000);
         });        
     </script>
 </body>
